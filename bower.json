@@ -1,0 +1,29 @@
+{
+  "name": "chrome-force",
+  "authors": [
+    "dieffrei@gmail.com"
+  ],
+  "description": "AngularJs service create salesforce extension on chrome",
+  "main": "",
+  "keywords": [
+    "angularjs",
+    "js",
+    "chrome",
+    "extension",
+    "salesforce",
+    "javascript"
+  ],
+  "license": "MIT",
+  "homepage": "dieffrei.com",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "angularjs#^1.6.0",
+    "underscore": "^1.8.3"
+  }
+}
