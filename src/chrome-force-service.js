@@ -16,11 +16,6 @@ angular.module('chromeForce', [])
             return url.indexOf('visual.force.com') >= 0;
         }
 
-        function isOnSalesforceDomain(url) {
-            if (url == null) return false;
-            return isLightning(url) || isStandardUi(url) || isVisualforce(url);
-        }
-
         function getInstanceName(url) {
             if (isStandardUi(url) || isLightning(url)) {
                 return url.split("//")[1].split(/.salesforce/)[0];
@@ -30,6 +25,15 @@ angular.module('chromeForce', [])
         }
 
         return {
+
+            isOnSalesforceDomain : function (url) {
+                var deferred = $q.defer();
+                this.getCurrentUrl().then(function (url) {
+                    if (url == null) deferred.resolve(false);
+                    deferred.resolve(isLightning(url) || isStandardUi(url) || isVisualforce(url));
+                });
+                return deferred.promise;
+            },
 
             getRecordId: function () {
                 var deferred = $q.defer();
