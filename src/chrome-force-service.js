@@ -22,8 +22,10 @@ angular.module('chromeForce', [])
         }
 
         function getInstanceName(url) {
-            if (isStandardUi(url) || isLightning(url)) {
+            if (isStandardUi(url)) {
                 return url.split("//")[1].split(/.salesforce/)[0];
+            } else if (isLightning(url)){
+                return url.split("//")[1].split(/.lightning/)[0]
             } else if (isVisualforce(url)) {
                 return url.split("https://c.")[1].split(".")[0]
             }
@@ -47,7 +49,7 @@ angular.module('chromeForce', [])
                         deferred.resolve(values[values.length - 1]);
                     } else if (isLightning(url)) {
                         var urlLight = url;
-                        urlLight = urlLight.split('one.app#/sObject/');
+                        urlLight = urlLight.split('#/sObject/');
                         deferred.resolve(urlLight[1].split('/')[0]);
                     }
                 });
@@ -56,14 +58,13 @@ angular.module('chromeForce', [])
 
             getCurrentUrl: function () {
                 var deferred = $q.defer();
-                try {
-                    this.getCurrentTab().then(function (currentTab) {
+                this.getCurrentTab().then(function (currentTab) {
+                    if (currentTab != null){
                         deferred.resolve(currentTab.url);
-                    });
-                } catch (ex) {
-                    console.err(ex);
-                    deferred.reject(ex);
-                }
+                    } else {
+                        deferred.resolve(null);
+                    }
+                });
                 return deferred.promise;
             },
 
@@ -78,13 +79,19 @@ angular.module('chromeForce', [])
                         }
                         var currentUrl = currentTab.url;
                         if (isOnSalesforceDomain(currentUrl)) {
-                            var instanceName = getInstanceName(currentUrl);
-                            that.getCookie(instanceName).then(function (cookie) {
-                                console.info("sf cookie: ", cookie);
-                                deferred.resolve([cookie.value, instanceName]);
-                            }, function (err) {
-                                deferred.resolve(err);
-                            })
+                            try {
+                                var instanceName = getInstanceName(currentUrl);
+                                console.debug("instancename:", instanceName);
+                                that.getCookie(instanceName).then(function (cookie) {
+                                    console.info("sf cookie: ", cookie);
+                                    deferred.resolve([cookie.value, instanceName]);
+                                }, function (err) {
+                                    deferred.resolve(err);
+                                })
+                            } catch(ex) {
+                                console.err(ex);
+                                deferred.reject(err);
+                            }
                         } else {
                             deferred.reject("It's not a salesforce domain.");
                             return deferred.promise;
@@ -112,10 +119,14 @@ angular.module('chromeForce', [])
             getCurrentTab: function () {
                 var deferred = $q.defer();
                 chrome.tabs.query({"currentWindow": true}, function (tabs) {  //Tab tab
-                    var activeTab = _.find(tabs, function (it) {
-                        return it.active;
-                    });
-                    deferred.resolve(activeTab);
+                    try {
+                        var activeTab = _.find(tabs, function (it) {
+                            return it.active;
+                        });
+                        deferred.resolve(activeTab);
+                    } catch(ex){
+                        deferred.reject(ex);
+                    }
                 });
                 return deferred.promise;
             }
