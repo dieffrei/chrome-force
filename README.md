@@ -8,9 +8,9 @@ Angular JS module allows chrome extensions to access salesforce api
 
 # Bower Usage
 
-You may use [bower](http://bower.io/) for dependency management but would recommend using webpack or browserify for modules.
+You may use [bower](http://bower.io/) for dependency management.
 
-Install and save to bower.json by running3333
+Install and save to bower.json by running
 
     bower install chrome-force --save
 
