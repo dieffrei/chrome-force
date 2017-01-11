@@ -12,6 +12,7 @@ You may use [bower](http://bower.io/) for dependency management but would recomm
 
 Install and save to bower.json by running3333
 
-    bower install angular-ui-date --save
+    bower install chrome-force --save
 
 This will copy the ui-date files into your `bower_components` folder, along with its dependencies.
+
