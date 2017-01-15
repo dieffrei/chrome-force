@@ -6,7 +6,8 @@ Angular JS module allows chrome extensions to access salesforce api
 
 # Requirements
 
-- Underscore
+- underscore
+- angular
 
 # Bower Usage
 
@@ -21,9 +22,7 @@ This will copy the ui-date files into your `bower_components` folder, along with
 Load the script files in your application:
 
 ```html
-<script type="text/javascript" src="bower_components/chrome-force/chromeforce.js"></script>
-<script type="text/javascript" src="bower_components/chrome-force/salesforce-api.js"></script>
-
+    <script type="text/javascript" src="bower_components/chrome-force/dist/chrome-force.js"></script>
 ```
 
 Add the chrome-force module as a dependency to your application module:
