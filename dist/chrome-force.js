@@ -1,6 +1,11 @@
 /**
  * Created by dieffrei on 15/01/17.
  */
+angular.module('br.com.dieffrei.chromeForce', []);
+
+/**
+ * Created by dieffrei on 15/01/17.
+ */
 angular.module('br.com.dieffrei.chromeForce')
     .service('chromeBrowserService', ['$q', function ($q) {
 
@@ -26,7 +31,7 @@ angular.module('br.com.dieffrei.chromeForce')
                 var deferred = $q.defer();
                 chrome.cookies.get({
                     url: url,
-                    name: sid
+                    name: name
                 }, function (response) {
                     deferred.resolve(response)
                 });
@@ -136,11 +141,6 @@ angular.module('br.com.dieffrei.chromeForce')
 
         }
     }]);
-/**
- * Created by dieffrei on 15/01/17.
- */
-angular.module('br.com.dieffrei.chromeForce', []);
-
 /**
  * Created by dieffrei on 10/12/16.
  */

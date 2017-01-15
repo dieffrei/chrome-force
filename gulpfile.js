@@ -28,7 +28,7 @@ gulp.task('minify', function() {
 });
 
 gulp.task('concat', function() {
-    return gulp.src('src/**/*.js')
+    return gulp.src(['src/chrome-force.module.js', 'src/**/*.js'])
         .pipe(concat('chrome-force.js'))
         .pipe(gulp.dest('dist'));
 });
