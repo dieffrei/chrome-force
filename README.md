@@ -30,3 +30,12 @@ Add the chrome-force module as a dependency to your application module:
 ```js
 angular.module('myChromeExtension', ['br.com.dieffrei.chromeForce'])
 ```
+
+# Project sample
+https://github.com/dieffrei/salesforce-chrome-extension-tutorial
+
+# Testing
+    npm test
+
+# Building
+    gulp build
