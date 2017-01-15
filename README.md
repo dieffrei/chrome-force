@@ -1,5 +1,5 @@
 [![CircleCI](https://circleci.com/gh/dieffrei/chrome-force/tree/master.svg?style=svg)](https://circleci.com/gh/dieffrei/chrome-force/tree/master)
-
+[![Bower version](https://badge.fury.io/bo/chrome-force.svg)](https://badge.fury.io/bo/chrome-force)
 # chrome-force
 Angular JS module allows chrome extensions to access salesforce api
 
