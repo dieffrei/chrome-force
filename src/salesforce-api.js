@@ -1,7 +1,10 @@
 /**
  * Created by dieffrei on 10/12/16.
  */
-var SalesforceApi = (function(){
+
+var ChromeForce = ChromeForce || {};
+
+ChromeForce.SalesforceApi = (function(){
 
     var _sessionId, _instanceName, _$q, _$http;
 
@@ -12,10 +15,10 @@ var SalesforceApi = (function(){
         _$http = $http;
     }
 
-    ChromeForce.prototype.callRestApi = function(url){
+    ChromeForce.prototype.callRestApi = function(url, method){
         var deferred = _$q.defer();
         _$http({
-            method: 'GET',
+            method: method,
             url: "https://" + _instanceName + ".salesforce.com/services/data/v35.0" + url,
             headers: {
                 "Authorization": "Bearer " + _sessionId

@@ -1,0 +1,34 @@
+{
+  "name": "chrome-force",
+  "version": "1.0.0",
+  "description": "Angular JS module allows chrome extensions to access salesforce api",
+  "main": "index.js",
+  "scripts": {
+    "pretest": "npm install",
+    "test": "karma start karma.conf.js",
+    "test-single-run": "karma start karma.conf.js --single-run"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dieffrei/chrome-force.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dieffrei/chrome-force/issues"
+  },
+  "homepage": "https://github.com/dieffrei/chrome-force#readme",
+  "dependencies": {
+    "chrome-mock": "0.0.9",
+    "protractor": "^5.0.0",
+    "webdriver-manager": "^11.1.1"
+  },
+  "devDependencies": {
+    "jasmine-core": "^2.5.2",
+    "karma": "^1.4.0",
+    "karma-chrome-launcher": "^2.0.0",
+    "karma-firefox-launcher": "^1.0.0",
+    "karma-jasmine": "^1.1.0",
+    "karma-junit-reporter": "^1.2.0"
+  }
+}

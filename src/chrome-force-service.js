@@ -1,37 +1,37 @@
 /**
  * Created by dieffrei on 08/12/16.
  */
-angular.module('chromeForce', [])
-    .service('chromeService', function ($q) {
+angular.module('br.com.dieffrei.chromeForce')
+    .service('chromeForceService', ['$q', 'chromeBrowserService', function ($q, chromeBrowserService) {
 
-        function isStandardUi(url) {
-            return (url.indexOf('salesforce.com/') >= 0);
-        }
+    return {
 
-        function isLightning(url) {
-            return url.indexOf('lightning.force.com/one/one.app') >= 0;
-        }
+            isStandardUi: function (url) {
+                return (url.indexOf('salesforce.com/') >= 0);
+            },
 
-        function isVisualforce(url) {
-            return url.indexOf('visual.force.com') >= 0;
-        }
+            isLightning: function (url) {
+                return url.indexOf('lightning.force.com/one/one.app') >= 0;
+            },
 
-        function isOnSalesforceDomain(url) {
-            if (url == null) return false;
-            return isLightning(url) || isStandardUi(url) || isVisualforce(url);
-        }
+            isVisualforce: function(url) {
+                return url.indexOf('visual.force.com') >= 0;
+            },
 
-        function getInstanceName(url) {
-            if (isStandardUi(url)) {
-                return url.split("//")[1].split(/.salesforce/)[0];
-            } else if (isLightning(url)){
-                return url.split("//")[1].split(/.lightning/)[0]
-            } else if (isVisualforce(url)) {
-                return url.split("https://c.")[1].split(".")[0]
-            }
-        }
+            isOnSalesforceDomain: function(url) {
+                if (url == null) return false;
+                return this.isLightning(url) || this.isStandardUi(url) || this.isVisualforce(url);
+            },
 
-        return {
+            getInstanceName : function(url) {
+                if (this.isStandardUi(url)) {
+                    return url.split("//")[1].split(/.salesforce/)[0];
+                } else if (this.isLightning(url)){
+                    return url.split("//")[1].split(/.lightning/)[0]
+                } else if (this.isVisualforce(url)) {
+                    return url.split("https://c.")[1].split(".")[0]
+                }
+            },
 
             getIsOnSalesforceDomain : function (url) {
                 var deferred = $q.defer();
@@ -44,10 +44,10 @@ angular.module('chromeForce', [])
             getRecordId: function () {
                 var deferred = $q.defer();
                 this.getCurrentUrl().then(function (url) {
-                    if (isStandardUi(url)) {
+                    if (this.isStandardUi(url)) {
                         var values = url.split('/');
                         deferred.resolve(values[values.length - 1]);
-                    } else if (isLightning(url)) {
+                    } else if (this.isLightning(url)) {
                         var urlLight = url;
                         urlLight = urlLight.split('#/sObject/');
                         deferred.resolve(urlLight[1].split('/')[0]);
@@ -58,7 +58,7 @@ angular.module('chromeForce', [])
 
             getCurrentUrl: function () {
                 var deferred = $q.defer();
-                this.getCurrentTab().then(function (currentTab) {
+                chromeBrowserService.getCurrentTab().then(function (currentTab) {
                     if (currentTab != null){
                         deferred.resolve(currentTab.url);
                     } else {
@@ -71,65 +71,25 @@ angular.module('chromeForce', [])
             getSessionId: function () {
                 var deferred = $q.defer();
                 var that = this;
-                try {
-                    that.getCurrentTab().then(function (currentTab) {
-                        if (currentTab == null) {
-                            deferred.reject("It's not a salesforce domain.");
-                            return deferred.promise;
-                        }
-                        var currentUrl = currentTab.url;
-                        if (isOnSalesforceDomain(currentUrl)) {
-                            try {
-                                var instanceName = getInstanceName(currentUrl);
-                                console.debug("instancename:", instanceName);
-                                that.getCookie(instanceName).then(function (cookie) {
-                                    console.info("sf cookie: ", cookie);
-                                    deferred.resolve([cookie.value, instanceName]);
-                                }, function (err) {
-                                    deferred.resolve(err);
-                                })
-                            } catch(ex) {
-                                console.err(ex);
-                                deferred.reject(err);
-                            }
-                        } else {
-                            deferred.reject("It's not a salesforce domain.");
-                            return deferred.promise;
-                        }
-                    }, function (err) {
-                        deferred.resolve(ex);
-                    });
-                } catch (ex) {
-                    deferred.resolve(ex);
-                }
-                return deferred.promise;
-            },
-
-            getCookie: function (instanceName) {
-                var deferred = $q.defer();
-                chrome.cookies.get({
-                    url: 'https://' + instanceName + '.salesforce.com',
-                    name: 'sid'
-                }, function (response) {
-                    deferred.resolve(response)
-                });
-                return deferred.promise;
-            },
-
-            getCurrentTab: function () {
-                var deferred = $q.defer();
-                chrome.tabs.query({"currentWindow": true}, function (tabs) {  //Tab tab
-                    try {
-                        var activeTab = _.find(tabs, function (it) {
-                            return it.active;
-                        });
-                        deferred.resolve(activeTab);
-                    } catch(ex){
-                        deferred.reject(ex);
+                chromeBrowserService.getCurrentTab().then(function (currentTab) {
+                    var currentUrl = currentTab.url;
+                    if (this.isOnSalesforceDomain(currentUrl)) {
+                        var instanceName = getInstanceName(currentUrl);
+                        chromeBrowserService.getCookie('https://' + instanceName + '.salesforce.com', 'sid')
+                            .then(function (cookie) {
+                                deferred.resolve([cookie.value, instanceName]);
+                            }, function (err) {
+                                deferred.resolve(err);
+                            })
+                    } else {
+                        deferred.reject("It's not a salesforce domain.");
+                        return deferred.promise;
                     }
+                }, function (err) {
+                    deferred.resolve(err);
                 });
                 return deferred.promise;
             }
 
         }
-    });
+    }]);

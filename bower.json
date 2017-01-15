@@ -3,7 +3,7 @@
   "authors": [
     "dieffrei@gmail.com"
   ],
-  "description": "AngularJs service create salesforce extension on chrome",
+  "description": "Angular JS module allows chrome extensions to access salesforce api",
   "main": "",
   "keywords": [
     "angularjs",
@@ -23,7 +23,9 @@
     "tests"
   ],
   "dependencies": {
-    "angular": "angularjs#^1.6.0",
-    "underscore": "^1.8.3"
+    "angular": "^1.6.1",
+    "underscore": "^1.8.3",
+    "angular-route": "^1.6.1",
+    "angular-mocks": "^1.6.1"
   }
 }
