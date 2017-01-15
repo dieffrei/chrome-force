@@ -1,7 +1,7 @@
 describe('salesforce api calls', function(){
 
-    const sessionId = '23sadlafslfasdasdfsdd';
-    const instanceName = 'cs2';
+    var sessionId = '23sadlafslfasdasdfsdd';
+    var instanceName = 'cs2';
 
     beforeEach(inject(function (_$http_, _$q_, _$rootScope_, _$httpBackend_) {
         $http = _$http_;
@@ -19,8 +19,8 @@ describe('salesforce api calls', function(){
             $http: $http
         });
 
-        const path = '/myservice/path';
-        const servicePath = api.getServiceEndpoint(path);
+        var path = '/myservice/path';
+        var servicePath = api.getServiceEndpoint(path);
         expect(servicePath).toBe("https://cs2.salesforce.com/services/data/v35.0" + path);
 
 

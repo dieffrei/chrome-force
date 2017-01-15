@@ -2,10 +2,10 @@
 
 describe('br.com.dieffrei.chromeForce', function() {
 
-    const recordId = 'idofrecord';
-    const instanceName = 'na12';
-    const tabUrl = 'https://' + instanceName + '.salesforce.com/' + recordId;
-    const sessionId = 'sidvalue9394545j';
+    var recordId = 'idofrecord';
+    var instanceName = 'na12';
+    var tabUrl = 'https://' + instanceName + '.salesforce.com/' + recordId;
+    var sessionId = 'sidvalue9394545j';
 
     beforeEach(angular.mock.module('br.com.dieffrei.chromeForce'));
 
