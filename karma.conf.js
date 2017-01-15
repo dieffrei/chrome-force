@@ -13,8 +13,18 @@ module.exports = function(config) {
             'bower_components/angular-route/angular-route.js',
             'bower_components/angular-mocks/angular-mocks.js',
             'src/chrome-force.module.js',
-            'src/**/*.js'
+            'src/**/*.js',
+            'test/**/*.js'
         ],
+
+        reporters: ['progress', 'coverage'],
+
+        preprocessors: {
+            // source files, that you wanna generate coverage for
+            // do not include tests or libraries
+            // (these files will be instrumented by Istanbul)
+            'src/**/*.js': ['coverage']
+        },
 
         autoWatch: true,
 
@@ -26,7 +36,8 @@ module.exports = function(config) {
             'karma-chrome-launcher',
             'karma-firefox-launcher',
             'karma-jasmine',
-            'karma-junit-reporter'
+            'karma-junit-reporter',
+            'karma-coverage'
         ],
 
         junitReporter: {

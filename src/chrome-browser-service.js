@@ -6,7 +6,7 @@ angular.module('br.com.dieffrei.chromeForce')
 
         return {
 
-            getCurrentTab : [function(){
+            getCurrentTab : function(){
                 var deferred = $q.defer();
                 chrome.tabs.query({"currentWindow": true}, function (tabs) {
                     try {
@@ -20,9 +20,9 @@ angular.module('br.com.dieffrei.chromeForce')
                 });
                 return deferred.promise;
 
-            }],
+            },
 
-            getCookie: [function(url, name){
+            getCookie: function(url, name){
                 var deferred = $q.defer();
                 chrome.cookies.get({
                     url: url,
@@ -32,7 +32,7 @@ angular.module('br.com.dieffrei.chromeForce')
                 });
                 return deferred.promise;
 
-            }]
+            }
 
         }
     }]);

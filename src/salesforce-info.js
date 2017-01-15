@@ -5,8 +5,9 @@ var ChromeForce = ChromeForce || {};
 
 ChromeForce.SalesforceSessionInfo = (function(){
 
-    function SalesforceSessionInfo(attrs){
-        _.extend(this, attrs);
+    function SalesforceSessionInfo(_instanceName_, _sessionId_){
+        this.instanceName = _instanceName_;
+        this.sessionId = _sessionId_;
     }
 
     return SalesforceSessionInfo;

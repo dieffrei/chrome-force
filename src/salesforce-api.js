@@ -6,22 +6,26 @@ var ChromeForce = ChromeForce || {};
 
 ChromeForce.SalesforceApi = (function(){
 
-    var _sessionId, _instanceName, _$q, _$http;
+    var sessionId, instanceName, $q, $http;
 
-    function ChromeForce(sessionId, instanceName, $q, $http){
-        _sessionId = sessionId;
-        _instanceName = instanceName;
-        _$q = $q;
-        _$http = $http;
+    function ChromeForce(options){
+        sessionId = options.sessionId;
+        instanceName = options.instanceName;
+        $q = options.$q;
+        $http = options.$http;
     }
 
-    ChromeForce.prototype.callRestApi = function(url, method){
-        var deferred = _$q.defer();
-        _$http({
+    ChromeForce.prototype.getServiceEndpoint = function(path){
+        return "https://" + instanceName + ".salesforce.com/services/data/v35.0" + path;
+    };
+
+    ChromeForce.prototype.callRestApi = function(path, method){
+        var deferred = $q.defer();
+        $http({
             method: method,
-            url: "https://" + _instanceName + ".salesforce.com/services/data/v35.0" + url,
+            url: this.getServiceEndpoint(path),
             headers: {
-                "Authorization": "Bearer " + _sessionId
+                "Authorization": "Bearer " + sessionId
             }
         }).then(function successCallback(response) {
             return deferred.resolve(response);

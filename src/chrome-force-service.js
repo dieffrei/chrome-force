@@ -33,21 +33,23 @@ angular.module('br.com.dieffrei.chromeForce')
                 }
             },
 
-            getIsOnSalesforceDomain : function (url) {
+            getIsOnSalesforceDomain : function () {
                 var deferred = $q.defer();
+                var that = this;
                 this.getCurrentUrl().then(function (url) {
-                    deferred.resolve(isOnSalesforceDomain(url));
+                    deferred.resolve(that.isOnSalesforceDomain(url));
                 });
                 return deferred.promise;
             },
 
             getRecordId: function () {
                 var deferred = $q.defer();
+                var that = this;
                 this.getCurrentUrl().then(function (url) {
-                    if (this.isStandardUi(url)) {
+                    if (that.isStandardUi(url)) {
                         var values = url.split('/');
                         deferred.resolve(values[values.length - 1]);
-                    } else if (this.isLightning(url)) {
+                    } else if (that.isLightning(url)) {
                         var urlLight = url;
                         urlLight = urlLight.split('#/sObject/');
                         deferred.resolve(urlLight[1].split('/')[0]);
@@ -68,16 +70,19 @@ angular.module('br.com.dieffrei.chromeForce')
                 return deferred.promise;
             },
 
-            getSessionId: function () {
+            getSalesforceInfo: function () {
                 var deferred = $q.defer();
                 var that = this;
                 chromeBrowserService.getCurrentTab().then(function (currentTab) {
                     var currentUrl = currentTab.url;
-                    if (this.isOnSalesforceDomain(currentUrl)) {
-                        var instanceName = getInstanceName(currentUrl);
+                    if (that.isOnSalesforceDomain(currentUrl)) {
+                        var instanceName = that.getInstanceName(currentUrl);
                         chromeBrowserService.getCookie('https://' + instanceName + '.salesforce.com', 'sid')
                             .then(function (cookie) {
-                                deferred.resolve([cookie.value, instanceName]);
+                                var sfSessionInfo = new ChromeForce.SalesforceSessionInfo();
+                                sfSessionInfo.sessionId = cookie.value;
+                                sfSessionInfo.instanceName = instanceName;
+                                deferred.resolve(sfSessionInfo);
                             }, function (err) {
                                 deferred.resolve(err);
                             })
