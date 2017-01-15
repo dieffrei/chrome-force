@@ -4,7 +4,7 @@
   "description": "Angular JS module allows chrome extensions to access salesforce api",
   "main": "index.js",
   "scripts": {
-    "pretest": "npm install",
+    "pretest": "bower install && npm install",
     "test": "karma start karma.conf.js",
     "test-single-run": "karma start karma.conf.js --single-run"
   },
