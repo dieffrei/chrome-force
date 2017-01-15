@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "pretest": "bower install && npm install",
-    "test": "karma start karma.conf.js",
+    "test": "karma start karma.conf.js --single-run",
     "test-single-run": "karma start karma.conf.js --single-run"
   },
   "repository": {
